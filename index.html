@@ -28,16 +28,28 @@
             border-radius: 15px;
             padding: 2rem;
             margin: 2rem 0;
-            min-height: 200px;
+            min-height: 400px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .animation-container {
-            height: 150px;
-            margin-bottom: 20px;
+        #animation-container {
+            height: 200px;
+            margin-bottom: 2rem;
             position: relative;
+        }
+
+        .animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .animation.active {
+            opacity: 1;
         }
 
         #current-fact {
@@ -75,53 +87,33 @@
             background: #357abd;
         }
 
-        /* Animations for different fact types */
-        .sun-animation {
-            animation: pulse 2s infinite;
-        }
-
-        .planet-animation {
-            animation: rotate 4s infinite linear;
-        }
-
-        .star-animation {
-            animation: twinkle 1.5s infinite;
-        }
-
-        .galaxy-animation {
-            animation: spiral 4s infinite linear;
-        }
-
-        @keyframes pulse {
+        @keyframes sun {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes planet {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        @keyframes twinkle {
-            0% { opacity: 0.3; }
+        @keyframes star {
+            0% { opacity: 0.2; }
             50% { opacity: 1; }
-            100% { opacity: 0.3; }
+            100% { opacity: 0.2; }
         }
 
-        @keyframes spiral {
-            from { transform: rotate(0deg) scale(1); }
-            to { transform: rotate(360deg) scale(0.5); }
-        }
+        .sun-animation { animation: sun 4s infinite; }
+        .planet-animation { animation: planet 8s infinite linear; }
+        .star-animation { animation: star 2s infinite; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Amazing Space Facts</h1>
         <div id="fact-container">
-            <div class="animation-container">
-                <div id="animation-element"></div>
-            </div>
+            <div id="animation-container"></div>
             <div id="current-fact"></div>
             <div class="button-container">
                 <button id="prev-fact">Previous</button>
@@ -136,23 +128,102 @@
                 {
                     "id": 1,
                     "fact": "Light from the Sun takes approximately 8 minutes and 20 seconds to reach Earth",
-                    "animation": "sun-animation"
+                    "animation": "sun"
                 },
                 {
                     "id": 2,
                     "fact": "The largest known star, UY Scuti, is about 1,700 times larger than our Sun",
-                    "animation": "star-animation"
+                    "animation": "star"
                 },
                 {
                     "id": 3,
                     "fact": "A day on Venus is longer than its year - it takes 243 Earth days to rotate on its axis",
-                    "animation": "planet-animation"
+                    "animation": "planet"
                 },
-                // ... [previous facts continue with their animations]
+                {
+                    "id": 4,
+                    "fact": "The Great Red Spot on Jupiter has been storming for at least 400 years",
+                    "animation": "planet"
+                },
+                {
+                    "id": 5,
+                    "fact": "There are more trees on Earth than stars in the Milky Way",
+                    "animation": "star"
+                },
+                {
+                    "id": 6,
+                    "fact": "The footprints on the Moon will last for 100 million years",
+                    "animation": "planet"
+                },
+                {
+                    "id": 7,
+                    "fact": "The space between galaxies is not completely empty - it contains about 1 atom per cubic meter",
+                    "animation": "star"
+                },
+                {
+                    "id": 8,
+                    "fact": "Saturn's moon Titan has liquid methane lakes and seas on its surface",
+                    "animation": "planet"
+                },
+                {
+                    "id": 9,
+                    "fact": "A neutron star can spin up to 600 times per second",
+                    "animation": "star"
+                },
+                {
+                    "id": 10,
+                    "fact": "The largest known black hole, TON 618, has a mass of 66 billion times that of our Sun",
+                    "animation": "star"
+                },
+                {
+                    "id": 11,
+                    "fact": "The temperature in the void of space is -270.45 degrees Celsius (-454.81 Fahrenheit)",
+                    "animation": "star"
+                },
+                {
+                    "id": 12,
+                    "fact": "One day on Mercury is equivalent to 176 Earth days",
+                    "animation": "planet"
+                },
+                {
+                    "id": 13,
+                    "fact": "The Milky Way galaxy is moving through space at approximately 600 km/s",
+                    "animation": "star"
+                },
+                {
+                    "id": 14,
+                    "fact": "There are more than 100 billion galaxies in the observable universe",
+                    "animation": "star"
+                },
+                {
+                    "id": 15,
+                    "fact": "The International Space Station orbits Earth at a speed of about 7.66 kilometers per second",
+                    "animation": "planet"
+                },
+                {
+                    "id": 16,
+                    "fact": "Mars' Olympus Mons is the tallest known mountain and volcano in the Solar System",
+                    "animation": "planet"
+                },
+                {
+                    "id": 17,
+                    "fact": "About 95% of the universe is made up of dark energy and dark matter",
+                    "animation": "star"
+                },
+                {
+                    "id": 18,
+                    "fact": "The universe is expanding at an accelerating rate",
+                    "animation": "star"
+                },
+                {
+                    "id": 19,
+                    "fact": "There is a planet made largely of diamond, called 55 Cancri e",
+                    "animation": "planet"
+                },
                 {
                     "id": 20,
                     "fact": "The largest known structure in the universe is the Hercules-Corona Borealis Great Wall",
-                    "animation": "galaxy-animation"
+                    "animation": "star"
                 }
             ]
         };
@@ -161,21 +232,44 @@
         const factElement = document.getElementById('current-fact');
         const nextButton = document.getElementById('next-fact');
         const prevButton = document.getElementById('prev-fact');
-        const animationElement = document.getElementById('animation-element');
+        const animationContainer = document.getElementById('animation-container');
+
+        function createAnimation(type) {
+            const div = document.createElement('div');
+            div.className = `animation ${type}-animation`;
+            
+            switch(type) {
+                case 'sun':
+                    div.innerHTML = '☀️';
+                    break;
+                case 'planet':
+                    div.innerHTML = '🌍';
+                    break;
+                case 'star':
+                    div.innerHTML = '⭐';
+                    break;
+            }
+            
+            return div;
+        }
 
         function displayFact(index) {
-            // Remove previous animation classes
-            animationElement.className = '';
-            factElement.className = '';
+            // Update fact text
+            factElement.textContent = spaceFacts.space_facts[index].fact;
+            factElement.classList.remove('active');
             
-            // Force DOM reflow
-            void factElement.offsetWidth;
+            // Reset animation container
+            animationContainer.innerHTML = '';
             
-            // Add new animation classes
-            const fact = spaceFacts.space_facts[index];
-            animationElement.className = fact.animation;
-            factElement.textContent = fact.fact;
-            factElement.classList.add('active');
+            // Create new animation
+            const animation = createAnimation(spaceFacts.space_facts[index].animation);
+            anim
+            
+            // Trigger animations
+            setTimeout(() => {
+                factElement.classList.add('active');
+                animation.classList.add('active');
+            }, 50);
         }
 
         nextButton.addEventListener('click', () => {
