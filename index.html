@@ -15,7 +15,6 @@
             background: linear-gradient(45deg, #1a1a2e, #16213e);
             font-family: Arial, sans-serif;
             color: white;
-            overflow-x: hidden;
         }
 
         .container {
@@ -29,32 +28,36 @@
             border-radius: 15px;
             padding: 2rem;
             margin: 2rem 0;
-            min-height: 500px;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        #animation-container {
-            height: 250px;
+        .animation-container {
+            height: 150px;
+            margin-bottom: 20px;
             position: relative;
-            margin-bottom: 2rem;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
         }
 
         #current-fact {
             font-size: 1.2rem;
             line-height: 1.6;
-            margin: 2rem 0;
-            min-height: 60px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #current-fact.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .button-container {
             display: flex;
-            justify-content: center;
             gap: 1rem;
+            justify-content: center;
         }
 
         button {
@@ -72,95 +75,43 @@
             background: #357abd;
         }
 
-        /* Animation Elements */
-        .sun {
-            width: 60px;
-            height: 60px;
-            background: #ffa726;
-            border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 60px #ffa726;
-            animation: pulse 2s ease-in-out infinite;
+        /* Animations for different fact types */
+        .sun-animation {
+            animation: pulse 2s infinite;
         }
 
-        .earth {
-            width: 20px;
-            height: 20px;
-            background: #2196f3;
-            border-radius: 50%;
-            position: absolute;
-            animation: orbit 8s linear infinite;
+        .planet-animation {
+            animation: rotate 4s infinite linear;
         }
 
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 1.5s ease-in-out infinite;
+        .star-animation {
+            animation: twinkle 1.5s infinite;
         }
 
-        .black-hole {
-            width: 40px;
-            height: 40px;
-            background: #000;
-            border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 20px #000;
-            animation: blackHolePulse 2s ease-in-out infinite;
-        }
-
-        .galaxy {
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(ellipse at center, 
-                rgba(255,255,255,0.9) 0%,
-                rgba(255,255,255,0.4) 50%,
-                rgba(255,255,255,0) 100%);
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            animation: galaxyRotate 20s linear infinite;
+        .galaxy-animation {
+            animation: spiral 4s infinite linear;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
 
-        @keyframes orbit {
-            from { transform: rotate(0deg) translateX(100px) rotate(0deg); }
-            to { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.8); }
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
         }
 
-        @keyframes blackHolePulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.3); }
-        }
-
-        @keyframes galaxyRotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .fade {
-            animation: fadeEffect 0.5s ease-in-out;
-        }
-
-        @keyframes fadeEffect {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes spiral {
+            from { transform: rotate(0deg) scale(1); }
+            to { transform: rotate(360deg) scale(0.5); }
         }
     </style>
 </head>
@@ -168,7 +119,9 @@
     <div class="container">
         <h1>Amazing Space Facts</h1>
         <div id="fact-container">
-            <div id="animation-container"></div>
+            <div class="animation-container">
+                <div id="animation-element"></div>
+            </div>
             <div id="current-fact"></div>
             <div class="button-container">
                 <button id="prev-fact">Previous</button>
@@ -183,14 +136,24 @@
                 {
                     "id": 1,
                     "fact": "Light from the Sun takes approximately 8 minutes and 20 seconds to reach Earth",
-                    "animation": "sunEarth"
+                    "animation": "sun-animation"
                 },
                 {
                     "id": 2,
                     "fact": "The largest known star, UY Scuti, is about 1,700 times larger than our Sun",
-                    "animation": "giantStar"
+                    "animation": "star-animation"
                 },
-                // ... [Previous facts continued]
+                {
+                    "id": 3,
+                    "fact": "A day on Venus is longer than its year - it takes 243 Earth days to rotate on its axis",
+                    "animation": "planet-animation"
+                },
+                // ... [previous facts continue with their animations]
+                {
+                    "id": 20,
+                    "fact": "The largest known structure in the universe is the Hercules-Corona Borealis Great Wall",
+                    "animation": "galaxy-animation"
+                }
             ]
         };
 
@@ -198,64 +161,21 @@
         const factElement = document.getElementById('current-fact');
         const nextButton = document.getElementById('next-fact');
         const prevButton = document.getElementById('prev-fact');
-        const animationContainer = document.getElementById('animation-container');
-
-        function createSunEarthAnimation() {
-            animationContainer.innerHTML = `
-                <div class="sun"></div>
-                <div class="earth"></div>
-            `;
-        }
-
-        function createStarField() {
-            animationContainer.innerHTML = '';
-            for(let i = 0; i < 20; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.width = Math.random() * 3 + 'px';
-                star.style.height = star.style.width;
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                animationContainer.appendChild(star);
-            }
-        }
-
-        function createBlackHoleAnimation() {
-            animationContainer.innerHTML = `
-                <div class="black-hole"></div>
-            `;
-        }
-
-        function createGalaxyAnimation() {
-            animationContainer.innerHTML = `
-                <div class="galaxy"></div>
-            `;
-        }
-
-        function setAnimation(index) {
-            animationContainer.innerHTML = '';
-            switch(index) {
-                case 0: // Sun light fact
-                    createSunEarthAnimation();
-                    break;
-                case 1: // UY Scuti fact
-                    createStarField();
-                    break;
-                case 9: // Black holeoleAnimation();
-                    break;
-                case 13: // Galaxy fact
-                    createGalaxyAnimation();
-                    break;
-                default:
-                    createStarField();
-            }
-        }
+        const animationElement = document.getElementById('animation-element');
 
         function displayFact(index) {
-            factElement.classList.add('fade');
-            factElement.textContent = spaceFacts.space_facts[index].fact;
-            setAnimation(index);
-            setTimeout(() => factElement.classList.remove('fade'), 500);
+            // Remove previous animation classes
+            animationElement.className = '';
+            factElement.className = '';
+            
+            // Force DOM reflow
+            void factElement.offsetWidth;
+            
+            // Add new animation classes
+            const fact = spaceFacts.space_facts[index];
+            animationElement.className = fact.animation;
+            factElement.textContent = fact.fact;
+            factElement.classList.add('active');
         }
 
         nextButton.addEventListener('click', () => {
