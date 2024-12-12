@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Facts Explorer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        #fact-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #current-fact {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            background: #4a90e2;
+            border: none;
+            padding: 1rem 2rem;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #357abd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Amazing Space Facts</h1>
+        <div id="fact-container">
+            <div id="current-fact"></div>
+            <button id="next-fact">Next Fact</button>
+        </div>
+    </div>
+
+    <script>
+        const spaceFacts = {
+            "space_facts": [
+                {
+                    "id": 1,
+                    "fact": "Light from the Sun takes approximately 8 minutes and 20 seconds to reach Earth"
+                },
+                {
+                    "id": 2,
+                    "fact": "The largest known star, UY Scuti, is about 1,700 times larger than our Sun"
+                },
+                {
+                    "id": 3,
+                    "fact": "A day on Venus is longer than its year - it takes 243 Earth days to rotate on its axis"
+                },
+                {
+                    "id": 4,
+                    "fact": "The Great Red Spot on Jupiter has been storming for at least 400 years"
+                },
+                {
+                    "id": 5,
+                    "fact": "There are more trees on Earth than stars in the Milky Way"
+                },
+                {
+                    "id": 6,
+                    "fact": "The footprints on the Moon will last for 100 million years"
+                },
+                {
+                    "id": 7,
+                    "fact": "The space between galaxies is not completely empty - it contains about 1 atom per cubic meter"
+                },
+                {
+                    "id": 8,
+                    "fact": "Saturn's moon Titan has liquid methane lakes and seas on its surface"
+                },
+                {
+                    "id": 9,
+                    "fact": "A neutron star can spin up to 600 times per second"
+                },
+                {
+                    "id": 10,
+                    "fact": "The largest known black hole, TON 618, has a mass of 66 billion times that of our Sun"
+                },
+                {
+                    "id": 11,
+                    "fact": "The temperature in the void of space is -270.45 degrees Celsius (-454.81 Fahrenheit)"
+                },
+                {
+                    "id": 12,
+                    "fact": "One day on Mercury is equivalent to 176 Earth days"
+                },
+                {
+                    "id": 13,
+                    "fact": "The Milky Way galaxy is moving through space at approximately 600 km/s"
+                },
+                {
+                    "id": 14,
+                    "fact": "There are more than 100 billion galaxies in the observable universe"
+                },
+                {
+                    "id": 15,
+                    "fact": "The International Space Station orbits Earth at a speed of about 7.66 kilometers per second"
+                },
+                {
+                    "id": 16,
+                    "fact": "Mars' Olympus Mons is the tallest known mountain and volcano in the Solar System"
+                },
+                {
+                    "id": 17,
+                    "fact": "About 95% of the universe is made up of dark energy and dark matter"
+                },
+                {
+                    "id": 18,
+                    "fact": "The universe is expanding at an accelerating rate"
+                },
+                {
+                    "id": 19,
+                    "fact": "There is a planet made largely of diamond, called 55 Cancri e"
+                },
+                {
+                    "id": 20,
+                    "fact": "The largest known structure in the universe is the Hercules-Corona Borealis Great Wall"
+                }
+            ]
+        };
+
+        let currentFactIndex = 0;
+        const factElement = document.getElementById('current-fact');
+        const nextButton = document.getElementById('next-fact');
+
+        function displayFact(index) {
+            factElement.textContent = spaceFacts.space_facts[index].fact;
+        }
+
+        nextButton.addEventListener('click', () => {
+            currentFactIndex = (currentFactIndex + 1) % spaceFacts.space_facts.length;
+            displayFact(currentFactIndex);
+        });
+
+        displayFact(0);
+    </script>
+</body>
+</html>
